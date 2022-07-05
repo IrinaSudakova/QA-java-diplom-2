@@ -52,7 +52,7 @@ public class TestSuiteCanNotRegisterTwice {
                 .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
                 .shouldHave(bodyField("refreshToken", notNullValue()))
                 .asPojo(RegisterSuccess.class);
-        // expect
+        // expected
         userApiService
                 .registerUser(registerUser)
                 .shouldHave(statusCode(403))

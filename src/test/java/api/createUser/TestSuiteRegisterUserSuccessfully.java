@@ -41,7 +41,7 @@ public class TestSuiteRegisterUserSuccessfully {
     public void testCanRegisterAsValidUser() {
         // given
         registerUser = UsersFactory.getRandomUser();
-        // expect
+        // expected
         registerSuccess = userApiService
                 .registerUser(registerUser)
                 .shouldHave(statusCode(200))
@@ -55,11 +55,11 @@ public class TestSuiteRegisterUserSuccessfully {
 
     @Feature("create user")
     @Test
-    @DisplayName("Can register as valid user with correct status code")
+    @DisplayName("Can register as valid user and body field has correct status code")
     public void testCanRegisterAsValidUserWithCorrectStatusCode() {
         // given
         registerUser = UsersFactory.getRandomUser();
-        // expect
+        // expected
         registerSuccess = userApiService
                 .registerUser(registerUser)
                 .shouldHave(statusCode(200))
@@ -68,11 +68,11 @@ public class TestSuiteRegisterUserSuccessfully {
 
     @Feature("create user")
     @Test
-    @DisplayName("Can register as valid user and body field has 'success'")
+    @DisplayName("Can register as valid user and body field 'success' is true")
     public void testCanRegisterAsValidUserWithCorrectBodyFieldSuccess() {
         // given
         registerUser = UsersFactory.getRandomUser();
-        // expect
+        // expected
         registerSuccess = userApiService
                 .registerUser(registerUser)
                 .shouldHave(bodyField("success", is(true)))
@@ -85,7 +85,7 @@ public class TestSuiteRegisterUserSuccessfully {
     public void testCanRegisterAsValidUserWithCorrectBodyFieldUserEmail() {
         // given
         registerUser = UsersFactory.getRandomUser();
-        // expect
+        // expected
         registerSuccess = userApiService
                 .registerUser(registerUser)
                 .shouldHave(bodyField("user.email", containsString(registerUser.getEmail())))
@@ -98,7 +98,7 @@ public class TestSuiteRegisterUserSuccessfully {
     public void testCanRegisterAsValidUserWithCorrectBodyFieldUserName() {
         // given
         registerUser = UsersFactory.getRandomUser();
-        // expect
+        // expected
         registerSuccess = userApiService
                 .registerUser(registerUser)
                 .shouldHave(bodyField("user.name", containsString(registerUser.getName())))
@@ -111,7 +111,7 @@ public class TestSuiteRegisterUserSuccessfully {
     public void testCanRegisterAsValidUserWithCorrectBodyFieldAccessToken() {
         // given
         registerUser = UsersFactory.getRandomUser();
-        // expect
+        // expected
         registerSuccess = userApiService
                 .registerUser(registerUser)
                 .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
@@ -124,7 +124,7 @@ public class TestSuiteRegisterUserSuccessfully {
     public void testCanRegisterAsValidUserWithCorrectBodyFieldRefreshToken() {
         // given
         registerUser = UsersFactory.getRandomUser();
-        // expect
+        // expected
         registerSuccess = userApiService
                 .registerUser(registerUser)
                 .shouldHave(bodyField("refreshToken", notNullValue()))

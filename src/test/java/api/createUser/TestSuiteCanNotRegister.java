@@ -28,7 +28,7 @@ public class TestSuiteCanNotRegister {
     public void testCanRegisterAsValidUserWithoutName() {
         // given
         registerUser = UsersFactory.getUserWithoutName();
-        // expect
+        // expected
         userApiService
                 .registerUser(registerUser)
                 .shouldHave(statusCode(403))
@@ -42,7 +42,7 @@ public class TestSuiteCanNotRegister {
     public void testCanRegisterAsValidUserWithoutPassword() {
         // given
         registerUser = UsersFactory.getUserWithoutPassword();
-        // expect
+        // expected
         userApiService
                 .registerUser(registerUser)
                 .shouldHave(statusCode(403))
@@ -56,7 +56,7 @@ public class TestSuiteCanNotRegister {
     public void testCanRegisterAsValidUserWithoutEmail() {
         // given
         registerUser = UsersFactory.getUserWithoutEmail();
-        // expect
+        // expected
         userApiService
                 .registerUser(registerUser)
                 .shouldHave(statusCode(403))
