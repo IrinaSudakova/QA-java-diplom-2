@@ -2,13 +2,13 @@ pipeline {
     agent any
     tools {
             maven 'Maven 3.8.6'
-            jdk 'Java 17'
+            jdk 'Java 9'
     }
     stages {
         stage ('checkout repo') {
             steps {
                 git branch: 'develop2',
-                credentialsId: '7984c6bc-1d41-4e25-b196-4962ffd46069',
+                credentialsId: '228fc8ca-2074-4584-9309-ab2faba991d5',
                 url: 'https://github.com/IrinaSudakova/QA-java-diplom-2.git'
             }
         }
