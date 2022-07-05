@@ -12,7 +12,6 @@ import static api.conditions.Conditions.bodyField;
 import static api.conditions.Conditions.statusCode;
 import static org.hamcrest.Matchers.*;
 
-
 public class TestSuiteCanNotRegister {
 
     private UserApiService userApiService;
