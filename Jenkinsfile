@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
             maven 'Maven 3.8.6'
-            jdk 'Java 9'
+            jdk 'Java 11'
     }
     stages {
         stage ('checkout repo') {
