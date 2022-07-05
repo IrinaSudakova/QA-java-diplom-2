@@ -1,7 +1,7 @@
 package api.services;
 
 import api.assertions.AssertableResponse;
-import api.data.login.AccessToken;
+import api.data.users.AccessToken;
 import api.data.login.LoginUser;
 import api.data.login.LogoutUser;
 import api.data.login.User;
@@ -52,18 +52,18 @@ public class UserApiService extends ApiService {
     }
 
     @Step
-    public AssertableResponse updateUser(AccessToken accessToken, User user) {
+    public AssertableResponse updateUser(String accessToken, User user) {
         return new AssertableResponse(setUp()
-                .body(accessToken)
+                .header("Authorization", accessToken)
                 .body(user)
                 .when()
                 .patch(USER));
     }
 
     @Step
-    public AssertableResponse deleteUser(User user) {
+    public AssertableResponse deleteUser(String accessToken) {
         return new AssertableResponse(setUp()
-                .body(user)
+                .header("Authorization", accessToken)
                 .when()
                 .delete(USER));
     }
