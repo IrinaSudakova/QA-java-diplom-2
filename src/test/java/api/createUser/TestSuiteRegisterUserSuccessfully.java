@@ -105,7 +105,6 @@ public class TestSuiteRegisterUserSuccessfully {
                 .asPojo(RegisterSuccess.class);
     }
 
-
     @Feature("create user")
     @Test
     @DisplayName("Can register as valid user and body field has accessToken")
