@@ -59,6 +59,7 @@ public class TestSuiteLoginUserSuccessfully {
     @Test
     @DisplayName("Can login for valid user")
     public void testCanLoginForValidUser() {
+        // expected
         loginSuccess = userApiService
                 .loginUser(loginUser)
                 .shouldHave(statusCode(200))
@@ -66,66 +67,6 @@ public class TestSuiteLoginUserSuccessfully {
                 .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
                 .shouldHave(bodyField("refreshToken", notNullValue()))
                 .shouldHave(bodyField("user.email", containsString(registerUser.getEmail())))
-                .shouldHave(bodyField("user.name", containsString(registerUser.getName())))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can login for valid user and response has correct status code")
-    public void testCanLoginForValidUserWithCorrectStatusCode() {
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(statusCode(200))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can login for valid user and body field 'success' is true")
-    public void testCanLoginForValidUserWithCorrectBodyFieldSuccess() {
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("success", is(true)))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can login for valid user and body field has correct accessToken")
-    public void testCanLoginForValidUserWithCorrectBodyFieldAccessToken() {
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can login for valid user and body field has correct refreshToken")
-    public void testCanLoginForValidUserWithCorrectBodyFieldRefreshToken() {
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("refreshToken", notNullValue()))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can login for valid user and body field has correct user email")
-    public void testCanLoginForValidUserWithCorrectBodyFieldUserEmail() {
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("user.email", containsString(registerUser.getEmail())))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can login for valid user and body field has correct user name")
-    public void testCanLoginForValidUserWithCorrectBodyFieldUserName() {
-        loginSuccess = userApiService
-                .loginUser(loginUser)
                 .shouldHave(bodyField("user.name", containsString(registerUser.getName())))
                 .asPojo(LoginSuccess.class);
     }

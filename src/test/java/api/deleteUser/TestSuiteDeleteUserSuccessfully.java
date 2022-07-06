@@ -47,34 +47,4 @@ public class TestSuiteDeleteUserSuccessfully {
                 .shouldHave(bodyField("success", is(true)))
                 .shouldHave(bodyField("message", containsString("User successfully removed")));
     }
-
-    @Feature("delete user")
-    @Test
-    @DisplayName("Can delete for valid user and response has correct status code")
-    public void testCanDeleteForValidUserWithCorrectStatusCode() {
-        // expected
-        userApiService
-                .deleteUser(registerSuccess.getAccessToken())
-                .shouldHave(statusCode(202));
-    }
-
-    @Feature("delete user")
-    @Test
-    @DisplayName("Can delete for valid user and body field 'success' is true")
-    public void testCanDeleteForValidUserWithCorrectBodyFieldSuccess() {
-        // expected
-        userApiService
-                .deleteUser(registerSuccess.getAccessToken())
-                .shouldHave(bodyField("success", is(true)));
-    }
-
-    @Feature("delete user")
-    @Test
-    @DisplayName("Can delete for valid user and body field has correct message")
-    public void testCanDeleteForValidUserWithCorrectBodyFieldMessage() {
-        // expected
-        userApiService
-                .deleteUser(registerSuccess.getAccessToken())
-                .shouldHave(bodyField("message", containsString("User successfully removed")));
-    }
 }

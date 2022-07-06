@@ -28,6 +28,7 @@ public class TestSuiteCanNotLoginUser {
     @Before
     public void setUp() {
         userApiService = new UserApiService();
+        loginUser = new LoginUser();
         registerUser = UsersFactory.getRandomUser();
         registerSuccess = userApiService
                 .registerUser(registerUser)
@@ -38,7 +39,7 @@ public class TestSuiteCanNotLoginUser {
                 .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
                 .shouldHave(bodyField("refreshToken", notNullValue()))
                 .asPojo(RegisterSuccess.class);
-        loginUser = new LoginUser();
+
     }
 
     @After
@@ -68,45 +69,6 @@ public class TestSuiteCanNotLoginUser {
 
     @Feature("login user")
     @Test
-    @DisplayName("Can't login without email and response has correct status code")
-    public void testCanLoginForValidUserWithoutEmailWithCorrectStatusCode() {
-        // set loginUser
-        loginUser.setPassword(registerUser.getPassword());
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(statusCode(401))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login without email and body field 'success' is false")
-    public void testCanLoginForValidUserWithoutEmailWithCorrectBodyFieldSuccess() {
-        // set loginUser
-        loginUser.setPassword(registerUser.getPassword());
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("success", is(false)))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login without email and body field has correct message")
-    public void testCanLoginForValidUserWithoutEmailWithCorrectBodyFieldMessage() {
-        // set loginUser
-        loginUser.setPassword(registerUser.getPassword());
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("message", containsString("email or password are incorrect")))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
     @DisplayName("Can't login with incorrect email")
     public void testCanLoginForValidUserWithIncorrectEmail() {
         // set loginUser
@@ -123,48 +85,6 @@ public class TestSuiteCanNotLoginUser {
 
     @Feature("login user")
     @Test
-    @DisplayName("Can't login with incorrect email and response has correct status code")
-    public void testCanLoginForValidUserWithIncorrectEmailWithCorrectStatusCode() {
-        // set loginUser
-        loginUser.setEmail(registerUser.getEmail() + "test");
-        loginUser.setPassword(registerUser.getPassword());
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(statusCode(401))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login with incorrect email and body field 'success' is false")
-    public void testCanLoginForValidUserWithIncorrectEmailWithCorrectBodyFieldSuccess() {
-        // set loginUser
-        loginUser.setEmail(registerUser.getEmail() + "test");
-        loginUser.setPassword(registerUser.getPassword());
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("success", is(false)))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login with incorrect email and body field has correct message")
-    public void testCanLoginForValidUserWithIncorrectEmailWithCorrectBodyFieldMessage() {
-        // set loginUser
-        loginUser.setEmail(registerUser.getEmail() + "test");
-        loginUser.setPassword(registerUser.getPassword());
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("message", containsString("email or password are incorrect")))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
     @DisplayName("Can't login without password")
     public void testCanLoginForValidUserWithoutPassword() {
         // set loginUser
@@ -174,45 +94,6 @@ public class TestSuiteCanNotLoginUser {
                 .loginUser(loginUser)
                 .shouldHave(statusCode(401))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("email or password are incorrect")))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login without password and response has correct status code")
-    public void testCanLoginForValidUserWithoutPasswordWithCorrectStatusCode() {
-        // set loginUser
-        loginUser.setEmail(registerUser.getEmail());
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(statusCode(401))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login without password and body field 'success' is false")
-    public void testCanLoginForValidUserWithoutPasswordWithCorrectBodyFieldSuccess() {
-        // set loginUser
-        loginUser.setEmail(registerUser.getEmail());
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("success", is(false)))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login without password and body field has correct message")
-    public void testCanLoginForValidUserWithoutPasswordWithCorrectBodyFieldMessage() {
-        // set loginUser
-        loginUser.setEmail(registerUser.getEmail());
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
                 .shouldHave(bodyField("message", containsString("email or password are incorrect")))
                 .asPojo(LoginSuccess.class);
     }
@@ -235,48 +116,6 @@ public class TestSuiteCanNotLoginUser {
 
     @Feature("login user")
     @Test
-    @DisplayName("Can't login with incorrect password and response has correct status code")
-    public void testCanLoginForValidUserWithIncorrectPasswordWithCorrectStatusCode() {
-        // set loginUser
-        loginUser.setEmail(registerUser.getEmail());
-        loginUser.setPassword(registerUser.getPassword() + "test");
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(statusCode(401))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login with incorrect password and body field 'success' is false")
-    public void testCanLoginForValidUserWithIncorrectPasswordWithCorrectBodyFieldSuccess() {
-        // set loginUser
-        loginUser.setEmail(registerUser.getEmail());
-        loginUser.setPassword(registerUser.getPassword() + "test");
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("success", is(false)))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login with incorrect password and body field has correct message")
-    public void testCanLoginForValidUserWithIncorrectPasswordWithCorrectBodyFieldMessage() {
-        // set loginUser
-        loginUser.setEmail(registerUser.getEmail());
-        loginUser.setPassword(registerUser.getPassword() + "test");
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("message", containsString("email or password are incorrect")))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
     @DisplayName("Can't login as empty user")
     public void testCanLoginAsEmptyUser() {
         // expected
@@ -284,39 +123,6 @@ public class TestSuiteCanNotLoginUser {
                 .loginUser(loginUser)
                 .shouldHave(statusCode(401))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("email or password are incorrect")))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login as empty user and response has correct status code")
-    public void testCanLoginAsEmptyUserWithCorrectStatusCode() {
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(statusCode(401))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login as empty user and body field 'success' is false")
-    public void testCanLoginAsEmptyUserWithCorrectBodyFieldSuccess() {
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(bodyField("success", is(false)))
-                .asPojo(LoginSuccess.class);
-    }
-
-    @Feature("login user")
-    @Test
-    @DisplayName("Can't login as empty user and body field has correct message")
-    public void testCanLoginAsEmptyUserWithCorrectBodyFieldMessage() {
-        // expected
-        loginSuccess = userApiService
-                .loginUser(loginUser)
                 .shouldHave(bodyField("message", containsString("email or password are incorrect")))
                 .asPojo(LoginSuccess.class);
     }

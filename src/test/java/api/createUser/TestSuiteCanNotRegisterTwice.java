@@ -58,34 +58,4 @@ public class TestSuiteCanNotRegisterTwice {
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString("User already exists")));
     }
-
-    @Feature("create user")
-    @Test
-    @DisplayName("Can't register twice and response has correct status code")
-    public void testCanNotRegisterTwiceWithCorrectStatusCode() {
-        // expected
-        userApiService
-                .registerUser(registerUser)
-                .shouldHave(statusCode(403));
-    }
-
-    @Feature("create user")
-    @Test
-    @DisplayName("Can't register twice and body field 'success' is false")
-    public void testCanNotRegisterTwiceWithCorrectBodyFieldSuccess() {
-        // expected
-        userApiService
-                .registerUser(registerUser)
-                .shouldHave(bodyField("success", is(false)));
-    }
-
-    @Feature("create user")
-    @Test
-    @DisplayName("Can't register twice and body field has correct message")
-    public void testCanNotRegisterTwiceWithCorrectBodyFieldMessage() {
-        // expected
-        userApiService
-                .registerUser(registerUser)
-                .shouldHave(bodyField("message", containsString("User already exists")));
-    }
 }

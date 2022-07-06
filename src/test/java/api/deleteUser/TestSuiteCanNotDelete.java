@@ -61,36 +61,6 @@ public class TestSuiteCanNotDelete {
 
     @Feature("delete user")
     @Test
-    @DisplayName("Can't delete for unvalid token and response has correct status code")
-    public void testCanNotDeleteForUnvalidTokenWithCorrectStatusCode() {
-        // expected
-        userApiService
-                .deleteUser(registerSuccess.getAccessToken() + "test")
-                .shouldHave(statusCode(403));
-    }
-
-    @Feature("delete user")
-    @Test
-    @DisplayName("Can't delete for unvalid token and body field 'success' is false")
-    public void testCanNotDeleteForUnvalidTokenWithCorrectBodyFieldSuccess() {
-        // expected
-        userApiService
-                .deleteUser(registerSuccess.getAccessToken() + "test")
-                .shouldHave(bodyField("success", is(false)));
-    }
-
-    @Feature("delete user")
-    @Test
-    @DisplayName("Can't delete for unvalid token and body field has correct message")
-    public void testCanNotDeleteForUnvalidTokenWithCorrectBodyFieldMessage() {
-        // expected
-        userApiService
-                .deleteUser(registerSuccess.getAccessToken() + "test")
-                .shouldHave(bodyField("message", containsString("invalid signature")));
-    }
-
-    @Feature("delete user")
-    @Test
     @DisplayName("Can't delete for empty token")
     public void testCanNotDeleteForEmptyToken() {
         // expected
@@ -98,36 +68,6 @@ public class TestSuiteCanNotDelete {
                 .deleteUser("")
                 .shouldHave(statusCode(401))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("You should be authorised")));
-    }
-
-    @Feature("delete user")
-    @Test
-    @DisplayName("Can't delete for empty token and response has correct status code")
-    public void testCanNotDeleteForEmptyTokenWithCorrectStatusCode() {
-        // expected
-        userApiService
-                .deleteUser("")
-                .shouldHave(statusCode(401));
-    }
-
-    @Feature("delete user")
-    @Test
-    @DisplayName("Can't delete for empty token and body field 'success' is false")
-    public void testCanNotDeleteForEmptyTokenWithCorrectBodyFieldSuccess() {
-        // expected
-        userApiService
-                .deleteUser("")
-                .shouldHave(bodyField("success", is(false)));
-    }
-
-    @Feature("delete user")
-    @Test
-    @DisplayName("Can't delete for empty token and body field has correct message")
-    public void testCanNotDeleteForEmptyTokenWithCorrectBodyFieldMessage() {
-        // expected
-        userApiService
-                .deleteUser("")
                 .shouldHave(bodyField("message", containsString("You should be authorised")));
     }
 }
