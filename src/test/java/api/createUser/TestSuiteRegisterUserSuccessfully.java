@@ -55,7 +55,7 @@ public class TestSuiteRegisterUserSuccessfully {
 
     @Feature("create user")
     @Test
-    @DisplayName("Can register as valid user and body field has correct status code")
+    @DisplayName("Can register as valid user and response has correct status code")
     public void testCanRegisterAsValidUserWithCorrectStatusCode() {
         // given
         registerUser = UsersFactory.getRandomUser();

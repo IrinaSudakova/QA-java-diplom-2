@@ -46,4 +46,9 @@ public class UsersFactory {
                 .password(password)
                 .build();
     }
+
+    public static RegisterUser getEmptyUser() {
+        return RegisterUser.builder()
+                .build();
+    }
 }

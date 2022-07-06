@@ -61,7 +61,7 @@ public class TestSuiteCanNotDelete {
 
     @Feature("delete user")
     @Test
-    @DisplayName("Can't delete for unvalid token and body field has correct status code")
+    @DisplayName("Can't delete for unvalid token and response has correct status code")
     public void testCanNotDeleteForUnvalidTokenWithCorrectStatusCode() {
         // expected
         userApiService
@@ -72,7 +72,7 @@ public class TestSuiteCanNotDelete {
     @Feature("delete user")
     @Test
     @DisplayName("Can't delete for unvalid token and body field 'success' is false")
-    public void testCanNotDeleteForUnvalidTokenWithCorrectSuccessField() {
+    public void testCanNotDeleteForUnvalidTokenWithCorrectBodyFieldSuccess() {
         // expected
         userApiService
                 .deleteUser(registerSuccess.getAccessToken() + "test")
@@ -82,7 +82,7 @@ public class TestSuiteCanNotDelete {
     @Feature("delete user")
     @Test
     @DisplayName("Can't delete for unvalid token and body field has correct message")
-    public void testCanNotDeleteForUnvalidTokenWithCorrectMessage() {
+    public void testCanNotDeleteForUnvalidTokenWithCorrectBodyFieldMessage() {
         // expected
         userApiService
                 .deleteUser(registerSuccess.getAccessToken() + "test")
@@ -103,7 +103,7 @@ public class TestSuiteCanNotDelete {
 
     @Feature("delete user")
     @Test
-    @DisplayName("Can't delete for empty token and body field has correct status code")
+    @DisplayName("Can't delete for empty token and response has correct status code")
     public void testCanNotDeleteForEmptyTokenWithCorrectStatusCode() {
         // expected
         userApiService
@@ -114,7 +114,7 @@ public class TestSuiteCanNotDelete {
     @Feature("delete user")
     @Test
     @DisplayName("Can't delete for empty token and body field 'success' is false")
-    public void testCanNotDeleteForEmptyTokenWithCorrectSuccessField() {
+    public void testCanNotDeleteForEmptyTokenWithCorrectBodyFieldSuccess() {
         // expected
         userApiService
                 .deleteUser("")
@@ -124,7 +124,7 @@ public class TestSuiteCanNotDelete {
     @Feature("delete user")
     @Test
     @DisplayName("Can't delete for empty token and body field has correct message")
-    public void testCanNotDeleteForEmptyTokenWithCorrectMessage() {
+    public void testCanNotDeleteForEmptyTokenWithCorrectBodyFieldMessage() {
         // expected
         userApiService
                 .deleteUser("")

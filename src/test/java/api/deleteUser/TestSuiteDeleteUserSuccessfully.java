@@ -50,7 +50,7 @@ public class TestSuiteDeleteUserSuccessfully {
 
     @Feature("delete user")
     @Test
-    @DisplayName("Can delete for valid user and body field has correct status code")
+    @DisplayName("Can delete for valid user and response has correct status code")
     public void testCanDeleteForValidUserWithCorrectStatusCode() {
         // expected
         userApiService
@@ -61,7 +61,7 @@ public class TestSuiteDeleteUserSuccessfully {
     @Feature("delete user")
     @Test
     @DisplayName("Can delete for valid user and body field 'success' is true")
-    public void testCanDeleteForValidUserWithCorrectSuccessField() {
+    public void testCanDeleteForValidUserWithCorrectBodyFieldSuccess() {
         // expected
         userApiService
                 .deleteUser(registerSuccess.getAccessToken())
@@ -71,7 +71,7 @@ public class TestSuiteDeleteUserSuccessfully {
     @Feature("delete user")
     @Test
     @DisplayName("Can delete for valid user and body field has correct message")
-    public void testCanDeleteForValidUserWithCorrectMessage() {
+    public void testCanDeleteForValidUserWithCorrectBodyFieldMessage() {
         // expected
         userApiService
                 .deleteUser(registerSuccess.getAccessToken())
