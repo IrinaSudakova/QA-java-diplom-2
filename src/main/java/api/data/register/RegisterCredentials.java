@@ -7,7 +7,7 @@ import lombok.Setter;
 @Builder
 @Setter
 @Getter
-public class RegisterUser{
+public class RegisterCredentials {
 
 	@JsonProperty("email")
 	private String email;

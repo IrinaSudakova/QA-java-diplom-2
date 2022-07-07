@@ -1,12 +1,12 @@
 package api.logoutUser;
 
-import api.data.login.LoginSuccess;
-import api.data.login.LoginUser;
-import api.data.login.LogoutUser;
-import api.data.register.RegisterSuccess;
-import api.data.register.RegisterUser;
+import api.data.login.LoginCredentions;
+import api.data.users.LogoutToken;
+import api.data.register.RegisteredUser;
+import api.data.register.RegisterCredentials;
+import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.UserApiService;
+import api.services.*;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -15,47 +15,35 @@ import org.junit.Test;
 
 import static api.conditions.Conditions.bodyField;
 import static api.conditions.Conditions.statusCode;
-import static api.data.users.AccessToken.regexAccessToken;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.containsString;
 
 public class TestSuiteCanNotLogoutUser {
-    private RegisterUser registerUser;
+    private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
-    private RegisterSuccess registerSuccess;
-    private LoginUser loginUser;
-    private LoginSuccess loginSuccess;
-    private LogoutUser logoutUser;
+    private RegisteredUser registeredUser;
+    private LoginCredentions loginCredentions;
+    private LogoutToken logoutToken;
+    private AccessToken accessToken;
+    private UserService userService;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        registerUser = UsersFactory.getRandomUser();
-        registerSuccess = userApiService
-                .registerUser(registerUser)
-                .shouldHave(statusCode(200))
-                .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("user.email", containsString(registerUser.getEmail())))
-                .shouldHave(bodyField("user.name", containsString(registerUser.getName())))
-                .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
-                .shouldHave(bodyField("refreshToken", notNullValue()))
-                .asPojo(RegisterSuccess.class);
-        // set loginUser
-        loginUser = new LoginUser();
-        loginUser.setEmail(registerUser.getEmail());
-        loginUser.setPassword(registerUser.getPassword());
-
-        logoutUser = new LogoutUser();
+        userService = new UserService();
+        logoutToken = new LogoutToken();
+        accessToken = new AccessToken();
+        loginCredentions = new LoginCredentions();
+        registerCredentials = UsersFactory.getRandomUser();
+        // register new user
+        registeredUser = userService.registerUser(userApiService, registerCredentials);
     }
 
     @After
     public void tearDown() {
         // delete User
-        userApiService
-                .deleteUser(loginSuccess.getAccessToken())
-                .shouldHave(statusCode(202))
-                .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("message", containsString("User successfully removed")));
+        accessToken.setAccessToken(registeredUser.getAccessToken());
+        userService.deleteUser(userApiService, accessToken);
     }
 
     @Feature("logout user")
@@ -63,19 +51,10 @@ public class TestSuiteCanNotLogoutUser {
     @DisplayName("Can't logout with incorrect refreshToken")
     public void testCanNotLogoutWithIncorrectRefreshToken() {
         // given
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(statusCode(200))
-                .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
-                .shouldHave(bodyField("refreshToken", notNullValue()))
-                .shouldHave(bodyField("user.email", containsString(registerUser.getEmail())))
-                .shouldHave(bodyField("user.name", containsString(registerUser.getName())))
-                .asPojo(LoginSuccess.class);
-        logoutUser.setToken(loginSuccess.getRefreshToken() + "test");
+        logoutToken.setToken(registeredUser.getRefreshToken() + "test");
         // expected
         userApiService
-                .logoutUser(logoutUser)
+                .logoutUser(logoutToken)
                 .shouldHave(statusCode(404))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString("Token required")));
@@ -85,19 +64,11 @@ public class TestSuiteCanNotLogoutUser {
     @Test
     @DisplayName("Can't logout with empty refreshToken")
     public void testCanNotLogoutWithEmptyRefreshToken() {
-        // given
-        loginSuccess = userApiService
-                .loginUser(loginUser)
-                .shouldHave(statusCode(200))
-                .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
-                .shouldHave(bodyField("refreshToken", notNullValue()))
-                .shouldHave(bodyField("user.email", containsString(registerUser.getEmail())))
-                .shouldHave(bodyField("user.name", containsString(registerUser.getName())))
-                .asPojo(LoginSuccess.class);
+        //
+        logoutToken.setToken("");
         // expected
         userApiService
-                .logoutUser(logoutUser)
+                .logoutUser(logoutToken)
                 .shouldHave(statusCode(404))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString("Token required")));

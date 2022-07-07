@@ -1,4 +1,4 @@
-package api.deleteUser;
+package api.createUser;
 
 import api.data.register.RegisteredUser;
 import api.data.register.RegisterCredentials;
@@ -8,14 +8,16 @@ import api.services.UserApiService;
 import api.services.UserService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static api.conditions.Conditions.bodyField;
 import static api.conditions.Conditions.statusCode;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.notNullValue;
 
-public class TestSuiteDeleteUserSuccessfully {
+public class TestSuiteCanNotRegisterUserTwice {
 
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
@@ -30,20 +32,25 @@ public class TestSuiteDeleteUserSuccessfully {
         accessToken = new AccessToken();
     }
 
-    @Feature("delete user")
+    @After
+    public void tearDown() {
+        // delete User
+        accessToken.setAccessToken(registeredUser.getAccessToken());
+        userService.deleteUser(userApiService, accessToken);
+    }
+
+    @Feature("create user")
     @Test
-    @DisplayName("Can delete for valid user")
-    public void testCanDeleteForValidUser() {
+    @DisplayName("Can't register twice")
+    public void testCanNotRegisterTwice() {
         // given
         registerCredentials = UsersFactory.getRandomUser();
-        // register new user
         registeredUser = userService.registerUser(userApiService, registerCredentials);
-        accessToken.setAccessToken(registeredUser.getAccessToken());
         // expected
         userApiService
-                .deleteUser(accessToken)
-                .shouldHave(statusCode(202))
-                .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("message", containsString("User successfully removed")));
+                .registerUser(registerCredentials)
+                .shouldHave(statusCode(403))
+                .shouldHave(bodyField("success", is(false)))
+                .shouldHave(bodyField("message", containsString("User already exists")));
     }
 }

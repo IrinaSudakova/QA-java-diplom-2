@@ -1,6 +1,6 @@
 package api.createUser;
 
-import api.data.register.RegisterUser;
+import api.data.register.RegisterCredentials;
 import api.data.users.UsersFactory;
 import api.services.UserApiService;
 import io.qameta.allure.Feature;
@@ -12,10 +12,10 @@ import static api.conditions.Conditions.bodyField;
 import static api.conditions.Conditions.statusCode;
 import static org.hamcrest.Matchers.*;
 
-public class TestSuiteCanNotRegister {
+public class TestSuiteCanNotRegisterUser {
 
     private UserApiService userApiService;
-    private RegisterUser registerUser;
+    private RegisterCredentials registerCredentials;
 
     @Before
     public void setUp() {
@@ -27,10 +27,10 @@ public class TestSuiteCanNotRegister {
     @DisplayName("Can't register without name")
     public void testCanRegisterAsValidUserWithoutName() {
         // given
-        registerUser = UsersFactory.getUserWithoutName();
+        registerCredentials = UsersFactory.getUserWithoutName();
         // expected
         userApiService
-                .registerUser(registerUser)
+                .registerUser(registerCredentials)
                 .shouldHave(statusCode(403))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString("Email, password and name are required fields")));
@@ -41,10 +41,10 @@ public class TestSuiteCanNotRegister {
     @DisplayName("Can't register without password")
     public void testCanRegisterAsValidUserWithoutPassword() {
         // given
-        registerUser = UsersFactory.getUserWithoutPassword();
+        registerCredentials = UsersFactory.getUserWithoutPassword();
         // expected
         userApiService
-                .registerUser(registerUser)
+                .registerUser(registerCredentials)
                 .shouldHave(statusCode(403))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString("Email, password and name are required fields")));
@@ -55,10 +55,10 @@ public class TestSuiteCanNotRegister {
     @DisplayName("Can't register without email")
     public void testCanRegisterAsValidUserWithoutEmail() {
         // given
-        registerUser = UsersFactory.getUserWithoutEmail();
+        registerCredentials = UsersFactory.getUserWithoutEmail();
         // expected
         userApiService
-                .registerUser(registerUser)
+                .registerUser(registerCredentials)
                 .shouldHave(statusCode(403))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString("Email, password and name are required fields")));
@@ -69,10 +69,10 @@ public class TestSuiteCanNotRegister {
     @DisplayName("Can't register empty user")
     public void testCanRegisterAsEmptyUser() {
         // given
-        registerUser = UsersFactory.getEmptyUser();
+        registerCredentials = UsersFactory.getEmptyUser();
         // expected
         userApiService
-                .registerUser(registerUser)
+                .registerUser(registerCredentials)
                 .shouldHave(statusCode(403))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString("Email, password and name are required fields")));

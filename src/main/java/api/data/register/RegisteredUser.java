@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class RegisterSuccess{
+public class RegisteredUser {
 
 	@JsonProperty("success")
 	private boolean success;

@@ -1,4 +1,4 @@
-package api.loginUser;
+package api.getUser;
 
 import api.data.login.LoginSuccess;
 import api.data.login.LoginCredentions;
@@ -16,12 +16,10 @@ import org.junit.Test;
 
 import static api.conditions.Conditions.bodyField;
 import static api.conditions.Conditions.statusCode;
-import static api.data.users.AccessToken.regexAccessToken;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.containsString;
 
-public class TestSuiteLoginUserSuccessfully {
-
+public class TestSuiteGetUserSuccessfully {
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
@@ -37,33 +35,28 @@ public class TestSuiteLoginUserSuccessfully {
         accessToken = new AccessToken();
         loginCredentions = new LoginCredentions();
         registerCredentials = UsersFactory.getRandomUser();
-        // register new user
         registeredUser = userService.registerUser(userApiService, registerCredentials);
     }
 
     @After
     public void tearDown() {
         // delete User
-        accessToken.setAccessToken(loginSuccess.getAccessToken());
+        accessToken.setAccessToken(registeredUser.getAccessToken());
         userService.deleteUser(userApiService, accessToken);
     }
 
-    @Feature("login user")
+    @Feature("get user")
     @Test
-    @DisplayName("Can login for valid user")
-    public void testCanLoginForValidUser() {
+    @DisplayName("Can get info for valid user")
+    public void testCanGetInfoForValidUser() {
         // given
-        loginCredentions.setEmail(registerCredentials.getEmail());
-        loginCredentions.setPassword(registerCredentials.getPassword());
+        accessToken.setAccessToken(registeredUser.getAccessToken());
         // expected
-        loginSuccess = userApiService
-                .loginUser(loginCredentions)
+        userApiService
+                .getUser(accessToken)
                 .shouldHave(statusCode(200))
                 .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
-                .shouldHave(bodyField("refreshToken", notNullValue()))
                 .shouldHave(bodyField("user.email", containsString(registerCredentials.getEmail())))
-                .shouldHave(bodyField("user.name", containsString(registerCredentials.getName())))
-                .asPojo(LoginSuccess.class);
+                .shouldHave(bodyField("user.name", containsString(registerCredentials.getName())));
     }
 }

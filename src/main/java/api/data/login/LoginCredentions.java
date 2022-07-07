@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class LoginUser {
+public class LoginCredentions {
 
 	@JsonProperty("password")
 	private String password;
