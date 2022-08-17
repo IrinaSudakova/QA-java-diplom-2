@@ -1,4 +1,4 @@
-package api.getUser;
+package api.getUserInfo;
 
 import api.data.login.LoginSuccess;
 import api.data.login.LoginCredentions;
@@ -19,7 +19,7 @@ import static api.conditions.Conditions.statusCode;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.containsString;
 
-public class TestSuiteGetUserSuccessfully {
+public class TestSuiteCanNotGetUserInfo {
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
@@ -47,16 +47,29 @@ public class TestSuiteGetUserSuccessfully {
 
     @Feature("get user")
     @Test
-    @DisplayName("Can get info for valid user")
-    public void testCanGetInfoForValidUser() {
+    @DisplayName("Can't get info with incorrect access token")
+    public void testCanNotGetInfoForUserWithIncorrectAccessToken() {
         // given
-        accessToken.setAccessToken(registeredUser.getAccessToken());
+        accessToken.setAccessToken(registeredUser.getAccessToken() + "test");
         // expected
         userApiService
                 .getUser(accessToken)
-                .shouldHave(statusCode(200))
-                .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("user.email", containsString(registerCredentials.getEmail())))
-                .shouldHave(bodyField("user.name", containsString(registerCredentials.getName())));
+                .shouldHave(statusCode(403))
+                .shouldHave(bodyField("success", is(false)))
+                .shouldHave(bodyField("message", containsString("invalid signature")));
+    }
+
+    @Feature("get user")
+    @Test
+    @DisplayName("Can't get info with empty access token")
+    public void testCanNotGetInfoForUserWithEmptyAccessToken() {
+        // given
+        accessToken.setAccessToken("");
+        // expected
+        userApiService
+                .getUser(accessToken)
+                .shouldHave(statusCode(401))
+                .shouldHave(bodyField("success", is(false)))
+                .shouldHave(bodyField("message", containsString("You should be authorised")));
     }
 }
