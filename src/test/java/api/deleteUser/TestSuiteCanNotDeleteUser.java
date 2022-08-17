@@ -44,8 +44,8 @@ public class TestSuiteCanNotDeleteUser {
 
     @Feature("delete user")
     @Test
-    @DisplayName("Can't delete for unvalid token")
-    public void testCanNotDeleteForUnvalidToken() {
+    @DisplayName("Can't delete for invalid token")
+    public void testCanNotDeleteForInvalidToken() {
         // given
         accessToken.setAccessToken(registeredUser.getAccessToken() + "test");
         // expected
