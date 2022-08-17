@@ -2,6 +2,7 @@ package api.services;
 
 import api.assertions.AssertableResponse;
 import api.data.ingredients.Ingredients;
+import api.data.orders.OrderRequest;
 import io.qameta.allure.Step;
 
 public class OrdersApiService extends ApiService {
@@ -24,9 +25,9 @@ public class OrdersApiService extends ApiService {
     }
 
     @Step
-    public AssertableResponse createOrder(Ingredients ingredients) {
+    public AssertableResponse createOrder(OrderRequest orderRequest) {
         return new AssertableResponse(setUp()
-                .body(ingredients)
+                .body(orderRequest)
                 .when()
                 .post(ORDERS));
     }

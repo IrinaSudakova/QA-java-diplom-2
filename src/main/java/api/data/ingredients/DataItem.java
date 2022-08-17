@@ -1,9 +1,10 @@
 package api.data.ingredients;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
+@Builder
 @Getter
 @Setter
 public class DataItem{
@@ -21,7 +22,7 @@ public class DataItem{
 	private int price;
 
 	@JsonProperty("__v")
-	private int V;
+	private int __v;
 
 	@JsonProperty("name")
 	private String name;
@@ -30,7 +31,7 @@ public class DataItem{
 	private int fat;
 
 	@JsonProperty("_id")
-	private String id;
+	private String _id;
 
 	@JsonProperty("calories")
 	private int calories;
@@ -39,9 +40,9 @@ public class DataItem{
 	private String type;
 
 	@JsonProperty("image_mobile")
-	private String imageMobile;
+	private String image_mobile;
 
 	@JsonProperty("image_large")
-	private String imageLarge;
+	private String image_large;
 
 }
