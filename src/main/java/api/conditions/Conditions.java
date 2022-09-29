@@ -1,10 +1,11 @@
 package api.conditions;
 
+import api.common.RequiredFields;
 import lombok.experimental.UtilityClass;
 import org.hamcrest.Matcher;
 
 @UtilityClass
-public class Conditions {
+public class Conditions extends RequiredFields {
     public StatusCodeCondition statusCode(int code) {
         return new StatusCodeCondition(code);
     }
