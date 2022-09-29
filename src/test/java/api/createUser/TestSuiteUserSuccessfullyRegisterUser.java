@@ -5,15 +5,14 @@ import api.data.register.RegisterCredentials;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
 import api.services.UserApiService;
-import api.services.UserService;
+import api.services.BaseUserMethod;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static api.conditions.Conditions.statusCode;
-import static api.conditions.Conditions.bodyField;
+import static api.conditions.Conditions.*;
 import static api.data.users.AccessToken.regexAccessToken;
 import static org.hamcrest.Matchers.*;
 
@@ -22,20 +21,20 @@ public class TestSuiteUserSuccessfullyRegisterUser {
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
     private AccessToken accessToken;
-    private UserService userService;
+    private BaseUserMethod baseUserMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
         accessToken = new AccessToken();
-        userService = new UserService();
+        baseUserMethod = new BaseUserMethod();
     }
 
     @After
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        userService.deleteUser(userApiService, accessToken);
+        baseUserMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("create user")
@@ -47,7 +46,7 @@ public class TestSuiteUserSuccessfullyRegisterUser {
         // expected
         registeredUser = userApiService
                 .registerUser(registerCredentials)
-                .shouldHave(statusCode(200))
+                .shouldHave(statusCode(STATUS_CODE_200))
                 .shouldHave(bodyField("success", is(true)))
                 .shouldHave(bodyField("user.email", containsString(registerCredentials.getEmail())))
                 .shouldHave(bodyField("user.name", containsString(registerCredentials.getName())))

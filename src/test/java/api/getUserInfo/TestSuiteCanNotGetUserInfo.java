@@ -1,48 +1,43 @@
 package api.getUserInfo;
 
-import api.data.login.LoginSuccess;
-import api.data.login.LoginCredentions;
 import api.data.register.RegisteredUser;
 import api.data.register.RegisterCredentials;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
 import api.services.UserApiService;
-import api.services.UserService;
+import api.services.BaseUserMethod;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static api.conditions.Conditions.bodyField;
-import static api.conditions.Conditions.statusCode;
+import static api.conditions.Conditions.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.containsString;
+
 
 public class TestSuiteCanNotGetUserInfo {
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
-    private LoginCredentions loginCredentions;
-    private LoginSuccess loginSuccess;
     private AccessToken accessToken;
-    private UserService userService;
+    private BaseUserMethod baseUserMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        userService = new UserService();
+        baseUserMethod = new BaseUserMethod();
         accessToken = new AccessToken();
-        loginCredentions = new LoginCredentions();
         registerCredentials = UsersFactory.getRandomUser();
-        registeredUser = userService.registerUser(userApiService, registerCredentials);
+        registeredUser = baseUserMethod.registerUserWithCurrent(registerCredentials);
     }
 
     @After
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        userService.deleteUser(userApiService, accessToken);
+        baseUserMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("get user")
@@ -54,9 +49,9 @@ public class TestSuiteCanNotGetUserInfo {
         // expected
         userApiService
                 .getUser(accessToken)
-                .shouldHave(statusCode(403))
+                .shouldHave(statusCode(STATUS_CODE_403))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("invalid signature")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_INVALID_SIGNATURE)));
     }
 
     @Feature("get user")
@@ -68,8 +63,8 @@ public class TestSuiteCanNotGetUserInfo {
         // expected
         userApiService
                 .getUser(accessToken)
-                .shouldHave(statusCode(401))
+                .shouldHave(statusCode(STATUS_CODE_401))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("You should be authorised")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_SHOULD_BE_AUTHORISED)));
     }
 }

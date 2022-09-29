@@ -1,52 +1,45 @@
 package api.patchUser;
 
-import api.data.login.LoginSuccess;
-import api.data.login.LoginCredentions;
 import api.data.login.User;
 import api.data.register.RegisteredUser;
 import api.data.register.RegisterCredentials;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
 import api.services.UserApiService;
-import api.services.UserService;
+import api.services.BaseUserMethod;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static api.conditions.Conditions.bodyField;
-import static api.conditions.Conditions.statusCode;
+import static api.conditions.Conditions.*;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.containsString;
 
 public class TestSuiteCanNotPatchUser {
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
-    private LoginCredentions loginCredentions;
-    private LoginSuccess loginSuccess;
     private AccessToken accessToken;
     private User user;
-    private UserService userService;
+    private BaseUserMethod baseUserMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        userService = new UserService();
+        baseUserMethod = new BaseUserMethod();
         accessToken = new AccessToken();
-        loginCredentions = new LoginCredentions();
         user = new User();
         registerCredentials = UsersFactory.getRandomUser();
         // register new user
-        registeredUser = userService.registerUser(userApiService, registerCredentials);
+        registeredUser = baseUserMethod.registerUserWithCurrent(registerCredentials);
     }
 
     @After
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        userService.deleteUser(userApiService, accessToken);
+        baseUserMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("patch user")
@@ -60,9 +53,9 @@ public class TestSuiteCanNotPatchUser {
         // expected
         userApiService
                 .patchUser(accessToken, user)
-                .shouldHave(statusCode(403))
+                .shouldHave(statusCode(STATUS_CODE_403))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("invalid signature")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_INVALID_SIGNATURE)));
     }
 
     @Feature("patch user")
@@ -72,7 +65,7 @@ public class TestSuiteCanNotPatchUser {
         // given
         // register newUser
         RegisterCredentials newRegisterCredentials = UsersFactory.getRandomUser();
-        RegisteredUser registeredNewUser = userService.registerUser(userApiService, newRegisterCredentials);
+        RegisteredUser registeredNewUser = baseUserMethod.registerUserWithCurrent(newRegisterCredentials);
         accessToken.setAccessToken(registeredNewUser.getAccessToken());
         User newUser = new User();
         newUser.setEmail(registerCredentials.getEmail());
@@ -80,15 +73,15 @@ public class TestSuiteCanNotPatchUser {
         // expected
         userApiService
                 .patchUser(accessToken, newUser)
-                .shouldHave(statusCode(403))
+                .shouldHave(statusCode(STATUS_CODE_403))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("User with such email already exists")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_USER_ALREADY_EXISTS)));
         // delete newUser
         userApiService
                 .deleteUser(accessToken)
-                .shouldHave(statusCode(202))
+                .shouldHave(statusCode(STATUS_CODE_202))
                 .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("message", containsString("User successfully removed")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_SUCCESSFULLY_REMOVED)));
     }
 
     @Feature("patch user")
@@ -100,7 +93,7 @@ public class TestSuiteCanNotPatchUser {
         // expected
         userApiService
                 .patchUser(accessToken, user)
-                .shouldHave(statusCode(200))
+                .shouldHave(statusCode(STATUS_CODE_200))
                 .shouldHave(bodyField("success", is(true)))
                 .shouldHave(bodyField("user.email", containsString(registerCredentials.getEmail())))
                 .shouldHave(bodyField("user.name", containsString(registerCredentials.getName())));
@@ -117,8 +110,8 @@ public class TestSuiteCanNotPatchUser {
         // expected
         userApiService
                 .patchUser(accessToken, user)
-                .shouldHave(statusCode(401))
+                .shouldHave(statusCode(STATUS_CODE_401))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("You should be authorised")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_SHOULD_BE_AUTHORISED)));
     }
 }

@@ -1,6 +1,6 @@
 package api.logoutUser;
 
-import api.data.login.LoginCredentions;
+import api.services.BaseUserMethod;
 import api.data.users.LogoutToken;
 import api.data.register.RegisteredUser;
 import api.data.register.RegisterCredentials;
@@ -13,37 +13,33 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static api.conditions.Conditions.bodyField;
-import static api.conditions.Conditions.statusCode;
+import static api.conditions.Conditions.*;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.containsString;
 
 public class TestSuiteCanNotLogoutUser {
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
-    private LoginCredentions loginCredentions;
     private LogoutToken logoutToken;
     private AccessToken accessToken;
-    private UserService userService;
+    private BaseUserMethod baseUserMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        userService = new UserService();
+        baseUserMethod = new BaseUserMethod();
         logoutToken = new LogoutToken();
         accessToken = new AccessToken();
-        loginCredentions = new LoginCredentions();
         registerCredentials = UsersFactory.getRandomUser();
         // register new user
-        registeredUser = userService.registerUser(userApiService, registerCredentials);
+        registeredUser = baseUserMethod.registerUserWithCurrent(registerCredentials);
     }
 
     @After
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        userService.deleteUser(userApiService, accessToken);
+        baseUserMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("logout user")
@@ -55,9 +51,9 @@ public class TestSuiteCanNotLogoutUser {
         // expected
         userApiService
                 .logoutUser(logoutToken)
-                .shouldHave(statusCode(404))
+                .shouldHave(statusCode(STATUS_CODE_404))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("Token required")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_TOKEN_REQUIRED)));
     }
 
     @Feature("logout user")
@@ -69,8 +65,8 @@ public class TestSuiteCanNotLogoutUser {
         // expected
         userApiService
                 .logoutUser(logoutToken)
-                .shouldHave(statusCode(404))
+                .shouldHave(statusCode(STATUS_CODE_404))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("Token required")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_TOKEN_REQUIRED)));
     }
 }

@@ -8,8 +8,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
 
-import static api.conditions.Conditions.bodyField;
-import static api.conditions.Conditions.statusCode;
+import static api.conditions.Conditions.*;
 import static org.hamcrest.Matchers.*;
 
 public class TestSuiteCanNotRegisterUser {
@@ -31,9 +30,9 @@ public class TestSuiteCanNotRegisterUser {
         // expected
         userApiService
                 .registerUser(registerCredentials)
-                .shouldHave(statusCode(403))
+                .shouldHave(statusCode(STATUS_CODE_403))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("Email, password and name are required fields")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_REQUIRED_FIELDS)));
     }
 
     @Feature("create user")
@@ -45,9 +44,9 @@ public class TestSuiteCanNotRegisterUser {
         // expected
         userApiService
                 .registerUser(registerCredentials)
-                .shouldHave(statusCode(403))
+                .shouldHave(statusCode(STATUS_CODE_403))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("Email, password and name are required fields")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_REQUIRED_FIELDS)));
     }
 
     @Feature("create user")
@@ -59,9 +58,9 @@ public class TestSuiteCanNotRegisterUser {
         // expected
         userApiService
                 .registerUser(registerCredentials)
-                .shouldHave(statusCode(403))
+                .shouldHave(statusCode(STATUS_CODE_403))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("Email, password and name are required fields")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_REQUIRED_FIELDS)));
     }
 
     @Feature("create user")
@@ -73,8 +72,8 @@ public class TestSuiteCanNotRegisterUser {
         // expected
         userApiService
                 .registerUser(registerCredentials)
-                .shouldHave(statusCode(403))
+                .shouldHave(statusCode(STATUS_CODE_403))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("Email, password and name are required fields")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_REQUIRED_FIELDS)));
     }
 }

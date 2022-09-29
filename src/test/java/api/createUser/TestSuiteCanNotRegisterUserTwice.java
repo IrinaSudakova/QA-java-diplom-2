@@ -5,17 +5,15 @@ import api.data.register.RegisterCredentials;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
 import api.services.UserApiService;
-import api.services.UserService;
+import api.services.BaseUserMethod;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static api.conditions.Conditions.bodyField;
-import static api.conditions.Conditions.statusCode;
+import static api.conditions.Conditions.*;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.notNullValue;
 
 public class TestSuiteCanNotRegisterUserTwice {
 
@@ -23,12 +21,12 @@ public class TestSuiteCanNotRegisterUserTwice {
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
     private AccessToken accessToken;
-    private UserService userService;
+    private BaseUserMethod baseUserMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        userService = new UserService();
+        baseUserMethod = new BaseUserMethod();
         accessToken = new AccessToken();
     }
 
@@ -36,7 +34,7 @@ public class TestSuiteCanNotRegisterUserTwice {
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        userService.deleteUser(userApiService, accessToken);
+        baseUserMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("create user")
@@ -45,12 +43,12 @@ public class TestSuiteCanNotRegisterUserTwice {
     public void testCanNotRegisterTwice() {
         // given
         registerCredentials = UsersFactory.getRandomUser();
-        registeredUser = userService.registerUser(userApiService, registerCredentials);
+        registeredUser = baseUserMethod.registerUserWithCurrent(registerCredentials);
         // expected
         userApiService
                 .registerUser(registerCredentials)
-                .shouldHave(statusCode(403))
+                .shouldHave(statusCode(STATUS_CODE_403))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("User already exists")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_USER_EXIST)));
     }
 }

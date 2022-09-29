@@ -29,8 +29,8 @@ public class TestSuiteCanNotCreateOrder {
         //expected
         ordersApiService
                 .createOrder(BurgerFactory.getInvalidBurgerWith(ingredients))
-                .shouldHave(statusCode(500))
-                .shouldHave(statusLine("HTTP/1.1 500 Internal Server Error"));
+                .shouldHave(statusCode(STATUS_CODE_500))
+                .shouldHave(statusLine(MESSAGE_INTERNAL_SERVER_ERROR));
     }
 
     @Feature("create order")
@@ -40,8 +40,8 @@ public class TestSuiteCanNotCreateOrder {
         //expected
         ordersApiService
                 .createOrder(BurgerFactory.getInvalidBurgerWithoutIngredients())
-                .shouldHave(statusCode(400))
+                .shouldHave(statusCode(STATUS_CODE_400))
                 .shouldHave(bodyField("success", is(false)))
-                .shouldHave(bodyField("message", containsString("Ingredient ids must be provided")));
+                .shouldHave(bodyField("message", containsString(MESSAGE_INGREDIENT_MUST_BE_PROVIDED)));
     }
 }
