@@ -1,7 +1,6 @@
 package api.services;
 
 import api.assertions.AssertableResponse;
-import api.data.ingredients.Ingredients;
 import api.data.orders.OrderRequest;
 import io.qameta.allure.Step;
 
