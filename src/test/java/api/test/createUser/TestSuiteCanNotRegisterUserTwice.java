@@ -1,11 +1,11 @@
-package api.createUser;
+package api.test.createUser;
 
-import api.data.register.RegisteredUser;
 import api.data.register.RegisterCredentials;
+import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.UserApiService;
 import api.services.BaseUserMethod;
+import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -13,10 +13,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static api.conditions.Conditions.*;
-import static api.data.users.AccessToken.regexAccessToken;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
-public class TestSuiteUserSuccessfullyRegisterUser {
+public class TestSuiteCanNotRegisterUserTwice {
+
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
@@ -26,8 +27,8 @@ public class TestSuiteUserSuccessfullyRegisterUser {
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        accessToken = new AccessToken();
         baseUserMethod = new BaseUserMethod();
+        accessToken = new AccessToken();
     }
 
     @After
@@ -39,19 +40,16 @@ public class TestSuiteUserSuccessfullyRegisterUser {
 
     @Feature("create user")
     @Test
-    @DisplayName("Can register as valid user")
-    public void testCanRegisterAsValidUser() {
+    @DisplayName("Can't register twice")
+    public void testCanNotRegisterTwice() {
         // given
         registerCredentials = UsersFactory.getRandomUser();
+        registeredUser = baseUserMethod.registerUserWithCurrent(registerCredentials);
         // expected
-        registeredUser = userApiService
+        userApiService
                 .registerUser(registerCredentials)
-                .shouldHave(statusCode(STATUS_CODE_200))
-                .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("user.email", containsString(registerCredentials.getEmail())))
-                .shouldHave(bodyField("user.name", containsString(registerCredentials.getName())))
-                .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
-                .shouldHave(bodyField("refreshToken", notNullValue()))
-                .asPojo(RegisteredUser.class);
+                .shouldHave(statusCode(STATUS_CODE_403))
+                .shouldHave(bodyField("success", is(false)))
+                .shouldHave(bodyField("message", containsString(MESSAGE_USER_EXIST)));
     }
 }

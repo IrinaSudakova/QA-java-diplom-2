@@ -1,12 +1,12 @@
-package api.loginUser;
+package api.test.loginUser;
 
-import api.data.login.LoginSuccess;
 import api.data.login.LoginCredentions;
+import api.data.login.LoginSuccess;
 import api.data.register.RegisterCredentials;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.UserApiService;
 import api.services.BaseUserMethod;
+import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;

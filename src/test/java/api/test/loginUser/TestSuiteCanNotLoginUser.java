@@ -1,12 +1,12 @@
-package api.loginUser;
+package api.test.loginUser;
 
 import api.data.login.LoginCredentions;
-import api.data.register.RegisteredUser;
 import api.data.register.RegisterCredentials;
+import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.UserApiService;
 import api.services.BaseUserMethod;
+import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -14,7 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static api.conditions.Conditions.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 public class TestSuiteCanNotLoginUser {
     private RegisterCredentials registerCredentials;
@@ -61,7 +62,7 @@ public class TestSuiteCanNotLoginUser {
     @DisplayName("Can't login with incorrect email")
     public void testCanLoginForValidUserWithIncorrectEmail() {
         // set loginUser
-        loginCredentions.setEmail(registerCredentials.getEmail() + "test");
+        loginCredentions.setEmail(registerCredentials.getEmail() + "api/test");
         loginCredentions.setPassword(registerCredentials.getPassword());
         // expected
         userApiService
@@ -91,7 +92,7 @@ public class TestSuiteCanNotLoginUser {
     public void testCanLoginForValidUserWithIncorrectPassword() {
         // set loginUser
         loginCredentions.setEmail(registerCredentials.getEmail());
-        loginCredentions.setPassword(registerCredentials.getPassword() + "test");
+        loginCredentions.setPassword(registerCredentials.getPassword() + "api/test");
         // expected
         userApiService
                 .loginUser(loginCredentions)

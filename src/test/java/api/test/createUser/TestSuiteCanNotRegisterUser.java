@@ -1,4 +1,4 @@
-package api.createUser;
+package api.test.createUser;
 
 import api.data.register.RegisterCredentials;
 import api.data.users.UsersFactory;
@@ -9,7 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static api.conditions.Conditions.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 public class TestSuiteCanNotRegisterUser {
 

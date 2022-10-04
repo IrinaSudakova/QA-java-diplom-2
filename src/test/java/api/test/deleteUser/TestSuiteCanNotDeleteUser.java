@@ -1,11 +1,11 @@
-package api.deleteUser;
+package api.test.deleteUser;
 
-import api.data.register.RegisteredUser;
 import api.data.register.RegisterCredentials;
+import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.UserApiService;
 import api.services.BaseUserMethod;
+import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -13,7 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static api.conditions.Conditions.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 public class TestSuiteCanNotDeleteUser {
 
@@ -45,7 +46,7 @@ public class TestSuiteCanNotDeleteUser {
     @DisplayName("Can't delete for invalid token")
     public void testCanNotDeleteForInvalidToken() {
         // given
-        accessToken.setAccessToken(registeredUser.getAccessToken() + "test");
+        accessToken.setAccessToken(registeredUser.getAccessToken() + "api/test");
         // expected
         userApiService
                 .deleteUser(accessToken)

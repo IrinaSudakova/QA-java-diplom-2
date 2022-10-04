@@ -1,13 +1,13 @@
-package api.logoutUser;
+package api.test.logoutUser;
 
-import api.data.login.LoginSuccess;
 import api.data.login.LoginCredentions;
-import api.data.users.LogoutToken;
+import api.data.login.LoginSuccess;
 import api.data.register.RegisterCredentials;
 import api.data.users.AccessToken;
+import api.data.users.LogoutToken;
 import api.data.users.UsersFactory;
-import api.services.UserApiService;
 import api.services.BaseUserMethod;
+import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -15,7 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static api.conditions.Conditions.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 public class TestSuiteLogoutUserSuccessfully {
     private RegisterCredentials registerCredentials;

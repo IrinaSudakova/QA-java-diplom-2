@@ -1,12 +1,12 @@
-package api.patchUser;
+package api.test.patchUser;
 
 import api.data.login.User;
-import api.data.register.RegisteredUser;
 import api.data.register.RegisterCredentials;
+import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.UserApiService;
 import api.services.BaseUserMethod;
+import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -14,7 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static api.conditions.Conditions.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 public class TestSuitePatchUserSuccessfully {
     private RegisterCredentials registerCredentials;
@@ -48,14 +49,14 @@ public class TestSuitePatchUserSuccessfully {
     public void testCanPatchEmailForValidUser() {
         // given
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        user.setEmail("test" + registerCredentials.getEmail());
+        user.setEmail("api/test" + registerCredentials.getEmail());
         user.setName(registerCredentials.getName());
         // expected
         userApiService
                 .patchUser(accessToken, user)
                 .shouldHave(statusCode(STATUS_CODE_200))
                 .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("user.email", containsString("test" + registerCredentials.getEmail())))
+                .shouldHave(bodyField("user.email", containsString("api/test" + registerCredentials.getEmail())))
                 .shouldHave(bodyField("user.name", containsString(registerCredentials.getName())));
     }
 
@@ -82,14 +83,14 @@ public class TestSuitePatchUserSuccessfully {
     public void testCanPatchNameAndEmailForValidUser() {
         // given
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        user.setEmail("test" + registerCredentials.getEmail());
+        user.setEmail("api/test" + registerCredentials.getEmail());
         user.setName("Test" + registerCredentials.getName());
         // expected
         userApiService
                 .patchUser(accessToken, user)
                 .shouldHave(statusCode(STATUS_CODE_200))
                 .shouldHave(bodyField("success", is(true)))
-                .shouldHave(bodyField("user.email", containsString("test" + registerCredentials.getEmail())))
+                .shouldHave(bodyField("user.email", containsString("api/test" + registerCredentials.getEmail())))
                 .shouldHave(bodyField("user.name", containsString("Test" + registerCredentials.getName())));
     }
 }

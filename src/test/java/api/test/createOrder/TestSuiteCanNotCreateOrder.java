@@ -1,4 +1,4 @@
-package api.createOrder;
+package api.test.createOrder;
 
 import api.data.ingredients.BurgerFactory;
 import api.data.ingredients.Ingredients;
@@ -9,7 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static api.conditions.Conditions.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 public class TestSuiteCanNotCreateOrder {
     private OrdersApiService ordersApiService;
@@ -21,7 +22,7 @@ public class TestSuiteCanNotCreateOrder {
 
     @Feature("create order")
     @Test
-    @DisplayName("Can't create order with invalid ingredient")
+    @DisplayName("Can't create order with invalid ingredient without user authorization")
     public void testCanNotCreateOrderWithInvalidIngredient() {
         // given
         Ingredients ingredients = ordersApiService.getIngredients().asPojo(Ingredients.class);
@@ -35,7 +36,7 @@ public class TestSuiteCanNotCreateOrder {
 
     @Feature("create order")
     @Test
-    @DisplayName("Can't create order without ingredients")
+    @DisplayName("Can't create order without ingredients without user authorization")
     public void testCanNotCreateOrderWithoutIngredients() {
         //expected
         ordersApiService
