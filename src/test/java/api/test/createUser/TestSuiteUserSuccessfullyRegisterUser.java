@@ -4,7 +4,7 @@ import api.data.register.RegisterCredentials;
 import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.BaseUserMethod;
+import api.services.BaseUserApiMethod;
 import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
@@ -21,20 +21,20 @@ public class TestSuiteUserSuccessfullyRegisterUser {
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
     private AccessToken accessToken;
-    private BaseUserMethod baseUserMethod;
+    private BaseUserApiMethod baseUserApiMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
         accessToken = new AccessToken();
-        baseUserMethod = new BaseUserMethod();
+        baseUserApiMethod = new BaseUserApiMethod();
     }
 
     @After
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        baseUserMethod.deleteUserWithCurrent(accessToken);
+        baseUserApiMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("create user")

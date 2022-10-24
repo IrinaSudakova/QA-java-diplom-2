@@ -4,7 +4,7 @@ import api.data.register.RegisterCredentials;
 import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.BaseUserMethod;
+import api.services.BaseUserApiMethod;
 import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
@@ -22,22 +22,22 @@ public class TestSuiteCanNotGetUserInfo {
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
     private AccessToken accessToken;
-    private BaseUserMethod baseUserMethod;
+    private BaseUserApiMethod baseUserApiMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        baseUserMethod = new BaseUserMethod();
+        baseUserApiMethod = new BaseUserApiMethod();
         accessToken = new AccessToken();
         registerCredentials = UsersFactory.getRandomUser();
-        registeredUser = baseUserMethod.registerUserWithCurrent(registerCredentials);
+        registeredUser = baseUserApiMethod.registerUserWithCurrent(registerCredentials);
     }
 
     @After
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        baseUserMethod.deleteUserWithCurrent(accessToken);
+        baseUserApiMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("get user")

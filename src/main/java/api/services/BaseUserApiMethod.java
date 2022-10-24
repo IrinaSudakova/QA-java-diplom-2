@@ -10,7 +10,7 @@ import static api.conditions.Conditions.*;
 import static api.data.users.AccessToken.regexAccessToken;
 import static org.hamcrest.Matchers.*;
 
-public class BaseUserMethod {
+public class BaseUserApiMethod {
 
     public RegisteredUser registerUserWithCurrent(RegisterCredentials registerCredentials) {
         return new UserApiService()

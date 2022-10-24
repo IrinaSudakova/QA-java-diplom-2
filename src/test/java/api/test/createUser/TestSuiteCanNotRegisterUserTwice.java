@@ -4,7 +4,7 @@ import api.data.register.RegisterCredentials;
 import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.BaseUserMethod;
+import api.services.BaseUserApiMethod;
 import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
@@ -22,12 +22,12 @@ public class TestSuiteCanNotRegisterUserTwice {
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
     private AccessToken accessToken;
-    private BaseUserMethod baseUserMethod;
+    private BaseUserApiMethod baseUserApiMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        baseUserMethod = new BaseUserMethod();
+        baseUserApiMethod = new BaseUserApiMethod();
         accessToken = new AccessToken();
     }
 
@@ -35,7 +35,7 @@ public class TestSuiteCanNotRegisterUserTwice {
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        baseUserMethod.deleteUserWithCurrent(accessToken);
+        baseUserApiMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("create user")
@@ -44,7 +44,7 @@ public class TestSuiteCanNotRegisterUserTwice {
     public void testCanNotRegisterTwice() {
         // given
         registerCredentials = UsersFactory.getRandomUser();
-        registeredUser = baseUserMethod.registerUserWithCurrent(registerCredentials);
+        registeredUser = baseUserApiMethod.registerUserWithCurrent(registerCredentials);
         // expected
         userApiService
                 .registerUser(registerCredentials)

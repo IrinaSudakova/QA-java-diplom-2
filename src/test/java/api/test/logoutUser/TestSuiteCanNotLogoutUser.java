@@ -5,7 +5,7 @@ import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
 import api.data.users.LogoutToken;
 import api.data.users.UsersFactory;
-import api.services.BaseUserMethod;
+import api.services.BaseUserApiMethod;
 import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
@@ -23,24 +23,24 @@ public class TestSuiteCanNotLogoutUser {
     private RegisteredUser registeredUser;
     private LogoutToken logoutToken;
     private AccessToken accessToken;
-    private BaseUserMethod baseUserMethod;
+    private BaseUserApiMethod baseUserApiMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        baseUserMethod = new BaseUserMethod();
+        baseUserApiMethod = new BaseUserApiMethod();
         logoutToken = new LogoutToken();
         accessToken = new AccessToken();
         registerCredentials = UsersFactory.getRandomUser();
         // register new user
-        registeredUser = baseUserMethod.registerUserWithCurrent(registerCredentials);
+        registeredUser = baseUserApiMethod.registerUserWithCurrent(registerCredentials);
     }
 
     @After
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(registeredUser.getAccessToken());
-        baseUserMethod.deleteUserWithCurrent(accessToken);
+        baseUserApiMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("logout user")

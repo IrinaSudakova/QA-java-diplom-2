@@ -8,7 +8,7 @@ import api.data.register.RegisterCredentials;
 import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
 import api.data.users.UsersFactory;
-import api.services.BaseUserMethod;
+import api.services.BaseUserApiMethod;
 import api.services.OrdersApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
@@ -24,14 +24,14 @@ public class TestSuiteCreateOrderSuccessfully {
     private RegisteredUser registeredUser;
     private LoginSuccess loginSuccess;
     private LoginCredentions loginCredentions;
-    private BaseUserMethod baseUserMethod;
+    private BaseUserApiMethod baseUserApiMethod;
     private AccessToken accessToken;
 
     @Before
     public void setUp() {
         ordersApiService = new OrdersApiService();
         registeredUser = new RegisteredUser();
-        baseUserMethod = new BaseUserMethod();
+        baseUserApiMethod = new BaseUserApiMethod();
         accessToken = new AccessToken();
         loginCredentions = new LoginCredentions();
         loginSuccess = new LoginSuccess();
@@ -60,9 +60,9 @@ public class TestSuiteCreateOrderSuccessfully {
         // given
         registerCredentials = UsersFactory.getRandomUser();
         // register and login new user
-        registeredUser = baseUserMethod.registerUserWithCurrent(registerCredentials);
-        baseUserMethod.setCurrentLoginCredentials(registerCredentials, loginCredentions);
-        loginSuccess = baseUserMethod.loginUserWithCurrent(loginCredentions,registerCredentials);
+        registeredUser = baseUserApiMethod.registerUserWithCurrent(registerCredentials);
+        baseUserApiMethod.setCurrentLoginCredentials(registerCredentials, loginCredentions);
+        loginSuccess = baseUserApiMethod.loginUserWithCurrent(loginCredentions,registerCredentials);
         // get ingredients
         Ingredients ingredients = ordersApiService.getIngredients().asPojo(Ingredients.class);
 
@@ -76,6 +76,6 @@ public class TestSuiteCreateOrderSuccessfully {
 
         // delete user
         accessToken.setAccessToken(loginSuccess.getAccessToken());
-        baseUserMethod.deleteUserWithCurrent(accessToken);
+        baseUserApiMethod.deleteUserWithCurrent(accessToken);
     }
 }

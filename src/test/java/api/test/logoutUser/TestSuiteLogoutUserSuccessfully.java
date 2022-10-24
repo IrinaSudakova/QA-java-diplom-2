@@ -6,7 +6,7 @@ import api.data.register.RegisterCredentials;
 import api.data.users.AccessToken;
 import api.data.users.LogoutToken;
 import api.data.users.UsersFactory;
-import api.services.BaseUserMethod;
+import api.services.BaseUserApiMethod;
 import api.services.UserApiService;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
@@ -25,26 +25,26 @@ public class TestSuiteLogoutUserSuccessfully {
     private LoginSuccess loginSuccess;
     private LogoutToken logoutToken;
     private AccessToken accessToken;
-    private BaseUserMethod baseUserMethod;
+    private BaseUserApiMethod baseUserApiMethod;
 
     @Before
     public void setUp() {
         userApiService = new UserApiService();
-        baseUserMethod = new BaseUserMethod();
+        baseUserApiMethod = new BaseUserApiMethod();
         accessToken = new AccessToken();
         loginCredentions = new LoginCredentions();
         logoutToken = new LogoutToken();
         // get new user
         registerCredentials = UsersFactory.getRandomUser();
         // register new user
-        baseUserMethod.registerUserWithCurrent(registerCredentials);
+        baseUserApiMethod.registerUserWithCurrent(registerCredentials);
     }
 
     @After
     public void tearDown() {
         // delete User
         accessToken.setAccessToken(loginSuccess.getAccessToken());
-        baseUserMethod.deleteUserWithCurrent(accessToken);
+        baseUserApiMethod.deleteUserWithCurrent(accessToken);
     }
 
     @Feature("logout user")
@@ -52,8 +52,8 @@ public class TestSuiteLogoutUserSuccessfully {
     @DisplayName("Can logout for valid user")
     public void testCanLogoutForValidUser() {
         // given
-        baseUserMethod.setCurrentLoginCredentials(registerCredentials, loginCredentions);
-        loginSuccess = baseUserMethod.loginUserWithCurrent(loginCredentions, registerCredentials);
+        baseUserApiMethod.setCurrentLoginCredentials(registerCredentials, loginCredentions);
+        loginSuccess = baseUserApiMethod.loginUserWithCurrent(loginCredentions, registerCredentials);
         logoutToken.setToken(loginSuccess.getRefreshToken());
         // expected
         userApiService
