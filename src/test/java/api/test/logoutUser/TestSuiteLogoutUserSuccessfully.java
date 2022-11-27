@@ -1,6 +1,6 @@
 package api.test.logoutUser;
 
-import api.data.login.LoginCredentions;
+import api.data.login.LoginCredentials;
 import api.data.login.LoginSuccess;
 import api.data.register.RegisterCredentials;
 import api.data.users.AccessToken;
@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
 public class TestSuiteLogoutUserSuccessfully {
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
-    private LoginCredentions loginCredentions;
+    private LoginCredentials loginCredentials;
     private LoginSuccess loginSuccess;
     private LogoutToken logoutToken;
     private AccessToken accessToken;
@@ -32,7 +32,7 @@ public class TestSuiteLogoutUserSuccessfully {
         userApiService = new UserApiService();
         baseUserApiMethod = new BaseUserApiMethod();
         accessToken = new AccessToken();
-        loginCredentions = new LoginCredentions();
+        loginCredentials = new LoginCredentials();
         logoutToken = new LogoutToken();
         // get new user
         registerCredentials = UsersFactory.getRandomUser();
@@ -52,8 +52,8 @@ public class TestSuiteLogoutUserSuccessfully {
     @DisplayName("Can logout for valid user")
     public void testCanLogoutForValidUser() {
         // given
-        baseUserApiMethod.setCurrentLoginCredentials(registerCredentials, loginCredentions);
-        loginSuccess = baseUserApiMethod.loginUserWithCurrent(loginCredentions, registerCredentials);
+        baseUserApiMethod.setCurrentLoginCredentials(registerCredentials, loginCredentials);
+        loginSuccess = baseUserApiMethod.loginUserWithCurrent(loginCredentials, registerCredentials);
         logoutToken.setToken(loginSuccess.getRefreshToken());
         // expected
         userApiService

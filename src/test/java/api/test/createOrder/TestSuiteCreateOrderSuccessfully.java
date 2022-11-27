@@ -2,7 +2,7 @@ package api.test.createOrder;
 
 import api.data.ingredients.BurgerFactory;
 import api.data.ingredients.Ingredients;
-import api.data.login.LoginCredentions;
+import api.data.login.LoginCredentials;
 import api.data.login.LoginSuccess;
 import api.data.register.RegisterCredentials;
 import api.data.register.RegisteredUser;
@@ -23,7 +23,7 @@ public class TestSuiteCreateOrderSuccessfully {
     private RegisterCredentials registerCredentials;
     private RegisteredUser registeredUser;
     private LoginSuccess loginSuccess;
-    private LoginCredentions loginCredentions;
+    private LoginCredentials loginCredentials;
     private BaseUserApiMethod baseUserApiMethod;
     private AccessToken accessToken;
 
@@ -33,7 +33,7 @@ public class TestSuiteCreateOrderSuccessfully {
         registeredUser = new RegisteredUser();
         baseUserApiMethod = new BaseUserApiMethod();
         accessToken = new AccessToken();
-        loginCredentions = new LoginCredentions();
+        loginCredentials = new LoginCredentials();
         loginSuccess = new LoginSuccess();
     }
 
@@ -61,8 +61,8 @@ public class TestSuiteCreateOrderSuccessfully {
         registerCredentials = UsersFactory.getRandomUser();
         // register and login new user
         registeredUser = baseUserApiMethod.registerUserWithCurrent(registerCredentials);
-        baseUserApiMethod.setCurrentLoginCredentials(registerCredentials, loginCredentions);
-        loginSuccess = baseUserApiMethod.loginUserWithCurrent(loginCredentions,registerCredentials);
+        baseUserApiMethod.setCurrentLoginCredentials(registerCredentials, loginCredentials);
+        loginSuccess = baseUserApiMethod.loginUserWithCurrent(loginCredentials,registerCredentials);
         // get ingredients
         Ingredients ingredients = ordersApiService.getIngredients().asPojo(Ingredients.class);
 

@@ -1,13 +1,13 @@
 package api.services;
 
 import api.assertions.AssertableResponse;
-import api.data.users.AccessToken;
-import api.data.login.LoginCredentions;
-import api.data.users.LogoutToken;
+import api.data.login.LoginCredentials;
 import api.data.login.User;
 import api.data.register.RegisterCredentials;
 import api.data.register.RequestToResetPassword;
 import api.data.register.ResetPassword;
+import api.data.users.AccessToken;
+import api.data.users.LogoutToken;
 import io.qameta.allure.Step;
 
 public class UserApiService extends ApiService {
@@ -20,9 +20,9 @@ public class UserApiService extends ApiService {
     }
 
     @Step
-    public AssertableResponse loginUser(LoginCredentions loginCredentions) {
+    public AssertableResponse loginUser(LoginCredentials loginCredentials) {
         return new AssertableResponse(setUp()
-                .body(loginCredentions)
+                .body(loginCredentials)
                 .when()
                 .post(LOGIN));
     }
@@ -36,9 +36,9 @@ public class UserApiService extends ApiService {
     }
 
     @Step
-    public AssertableResponse getToken(LoginCredentions loginCredentions) {
+    public AssertableResponse getToken(LoginCredentials loginCredentials) {
         return new AssertableResponse(setUp()
-                .body(loginCredentions)
+                .body(loginCredentials)
                 .when()
                 .post(TOKEN));
     }

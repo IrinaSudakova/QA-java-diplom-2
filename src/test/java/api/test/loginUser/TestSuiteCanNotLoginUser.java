@@ -1,6 +1,6 @@
 package api.test.loginUser;
 
-import api.data.login.LoginCredentions;
+import api.data.login.LoginCredentials;
 import api.data.register.RegisterCredentials;
 import api.data.register.RegisteredUser;
 import api.data.users.AccessToken;
@@ -21,7 +21,7 @@ public class TestSuiteCanNotLoginUser {
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
     private RegisteredUser registeredUser;
-    private LoginCredentions loginCredentions;
+    private LoginCredentials loginCredentials;
     private AccessToken accessToken;
     private BaseUserApiMethod baseUserApiMethod;
 
@@ -29,7 +29,7 @@ public class TestSuiteCanNotLoginUser {
     public void setUp() {
         userApiService = new UserApiService();
         baseUserApiMethod = new BaseUserApiMethod();
-        loginCredentions = new LoginCredentions();
+        loginCredentials = new LoginCredentials();
         accessToken = new AccessToken();
         registerCredentials = UsersFactory.getRandomUser();
         // register new user
@@ -48,10 +48,10 @@ public class TestSuiteCanNotLoginUser {
     @DisplayName("Can't login without email")
     public void testCanLoginForValidUserWithoutEmail() {
         // set loginUser
-        loginCredentions.setPassword(registerCredentials.getPassword());
+        loginCredentials.setPassword(registerCredentials.getPassword());
         // expected
         userApiService
-                .loginUser(loginCredentions)
+                .loginUser(loginCredentials)
                 .shouldHave(statusCode(STATUS_CODE_401))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString(MESSAGE_EMAIL_OR_PASSWORD_INCORRECT)));
@@ -62,11 +62,11 @@ public class TestSuiteCanNotLoginUser {
     @DisplayName("Can't login with incorrect email")
     public void testCanLoginForValidUserWithIncorrectEmail() {
         // set loginUser
-        loginCredentions.setEmail(registerCredentials.getEmail() + "api/test");
-        loginCredentions.setPassword(registerCredentials.getPassword());
+        loginCredentials.setEmail(registerCredentials.getEmail() + "api/test");
+        loginCredentials.setPassword(registerCredentials.getPassword());
         // expected
         userApiService
-                .loginUser(loginCredentions)
+                .loginUser(loginCredentials)
                 .shouldHave(statusCode(STATUS_CODE_401))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString(MESSAGE_EMAIL_OR_PASSWORD_INCORRECT)));
@@ -77,10 +77,10 @@ public class TestSuiteCanNotLoginUser {
     @DisplayName("Can't login without password")
     public void testCanLoginForValidUserWithoutPassword() {
         // set loginUser
-        loginCredentions.setEmail(registerCredentials.getEmail());
+        loginCredentials.setEmail(registerCredentials.getEmail());
         // expected
         userApiService
-                .loginUser(loginCredentions)
+                .loginUser(loginCredentials)
                 .shouldHave(statusCode(STATUS_CODE_401))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString(MESSAGE_EMAIL_OR_PASSWORD_INCORRECT)));
@@ -91,11 +91,11 @@ public class TestSuiteCanNotLoginUser {
     @DisplayName("Can't login with incorrect password")
     public void testCanLoginForValidUserWithIncorrectPassword() {
         // set loginUser
-        loginCredentions.setEmail(registerCredentials.getEmail());
-        loginCredentions.setPassword(registerCredentials.getPassword() + "api/test");
+        loginCredentials.setEmail(registerCredentials.getEmail());
+        loginCredentials.setPassword(registerCredentials.getPassword() + "api/test");
         // expected
         userApiService
-                .loginUser(loginCredentions)
+                .loginUser(loginCredentials)
                 .shouldHave(statusCode(STATUS_CODE_401))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString(MESSAGE_EMAIL_OR_PASSWORD_INCORRECT)));
@@ -107,7 +107,7 @@ public class TestSuiteCanNotLoginUser {
     public void testCanLoginAsEmptyUser() {
         // expected
         userApiService
-                .loginUser(loginCredentions)
+                .loginUser(loginCredentials)
                 .shouldHave(statusCode(STATUS_CODE_401))
                 .shouldHave(bodyField("success", is(false)))
                 .shouldHave(bodyField("message", containsString(MESSAGE_EMAIL_OR_PASSWORD_INCORRECT)));

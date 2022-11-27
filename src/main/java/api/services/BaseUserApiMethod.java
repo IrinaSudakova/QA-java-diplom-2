@@ -1,6 +1,6 @@
 package api.services;
 
-import api.data.login.LoginCredentions;
+import api.data.login.LoginCredentials;
 import api.data.login.LoginSuccess;
 import api.data.register.RegisterCredentials;
 import api.data.register.RegisteredUser;
@@ -24,9 +24,9 @@ public class BaseUserApiMethod {
                 .asPojo(RegisteredUser.class);
     }
 
-    public LoginSuccess loginUserWithCurrent(LoginCredentions loginCredentions, RegisterCredentials registerCredentials) {
+    public LoginSuccess loginUserWithCurrent(LoginCredentials loginCredentials, RegisterCredentials registerCredentials) {
         return new UserApiService()
-                .loginUser(loginCredentions)
+                .loginUser(loginCredentials)
                 .shouldHave(statusCode(STATUS_CODE_200))
                 .shouldHave(bodyField("success", is(true)))
                 .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
@@ -44,8 +44,8 @@ public class BaseUserApiMethod {
                 .shouldHave(bodyField("message", containsString(MESSAGE_SUCCESSFULLY_REMOVED)));
     }
 
-    public void setCurrentLoginCredentials(RegisterCredentials registerCredentials, LoginCredentions loginCredentions) {
-        loginCredentions.setEmail(registerCredentials.getEmail());
-        loginCredentions.setPassword(registerCredentials.getPassword());
+    public void setCurrentLoginCredentials(RegisterCredentials registerCredentials, LoginCredentials loginCredentials) {
+        loginCredentials.setEmail(registerCredentials.getEmail());
+        loginCredentials.setPassword(registerCredentials.getPassword());
     }
 }

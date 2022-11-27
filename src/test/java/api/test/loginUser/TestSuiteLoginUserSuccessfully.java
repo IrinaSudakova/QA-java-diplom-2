@@ -1,6 +1,6 @@
 package api.test.loginUser;
 
-import api.data.login.LoginCredentions;
+import api.data.login.LoginCredentials;
 import api.data.login.LoginSuccess;
 import api.data.register.RegisterCredentials;
 import api.data.users.AccessToken;
@@ -22,7 +22,7 @@ public class TestSuiteLoginUserSuccessfully {
 
     private RegisterCredentials registerCredentials;
     private UserApiService userApiService;
-    private LoginCredentions loginCredentions;
+    private LoginCredentials loginCredentials;
     private LoginSuccess loginSuccess;
     private AccessToken accessToken;
     private BaseUserApiMethod baseUserApiMethod;
@@ -32,7 +32,7 @@ public class TestSuiteLoginUserSuccessfully {
         userApiService = new UserApiService();
         baseUserApiMethod = new BaseUserApiMethod();
         accessToken = new AccessToken();
-        loginCredentions = new LoginCredentions();
+        loginCredentials = new LoginCredentials();
         registerCredentials = UsersFactory.getRandomUser();
         // register new user
         baseUserApiMethod.registerUserWithCurrent(registerCredentials);
@@ -50,11 +50,11 @@ public class TestSuiteLoginUserSuccessfully {
     @DisplayName("Can login for valid user")
     public void testCanLoginForValidUser() {
         // given
-        loginCredentions.setEmail(registerCredentials.getEmail());
-        loginCredentions.setPassword(registerCredentials.getPassword());
+        loginCredentials.setEmail(registerCredentials.getEmail());
+        loginCredentials.setPassword(registerCredentials.getPassword());
         // expected
         loginSuccess = userApiService
-                .loginUser(loginCredentions)
+                .loginUser(loginCredentials)
                 .shouldHave(statusCode(STATUS_CODE_200))
                 .shouldHave(bodyField("success", is(true)))
                 .shouldHave(bodyField("accessToken", matchesPattern(regexAccessToken)))
