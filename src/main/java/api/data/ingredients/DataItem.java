@@ -22,7 +22,7 @@ public class DataItem{
 	private int price;
 
 	@JsonProperty("__v")
-	private int __v;
+	private int dataItem_v;
 
 	@JsonProperty("name")
 	private String name;
